@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h1>Bienvenido, {{ session['nombre'] }}</h1>
+
+<a href="{{ url_for('favoritos') }}">Ver favoritos</a>
+
+<a href="{{ url_for('cerrarsesion') }}">Cerrar sesion</a>
+
+<p>Fecha de registro: {{ fecha_registro }}</p>
+
+{% if inicio_sesion %}
+    <p>Ultimo login: {{ inicio_sesion }}</p>
+{% endif %}
+
+{% if not personajes %}
+    <p>No hay personajes disponibles</p>
+{% else %}
+    {% for p in personajes %}
+        <div>
+            <p>{{ p['name'] }}</p>
+            <img src="{{ p['image'] }}" alt="" width="100">
+            <form action="{{ url_for('favoritos') }}" method="post">
+                <input type="hidden" name="name" value="{{ p['name'] }}">
+                <input type="hidden" name="image" value="{{ p['image'] }}"> 
+                <button>Añadir a favoritos</button>
+            </form>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
