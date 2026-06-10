@@ -4,10 +4,8 @@ from dotenv import load_dotenv
 import os, sqlite3, requests, datetime
 
 load_dotenv()
-
 app=Flask(__name__)
 app.secret_key=os.getenv('secreto')
-
 def create_table():
     conexion = sqlite3.connect('users.db')
     cursor = conexion.cursor()
@@ -42,7 +40,6 @@ def error_404(e):
     return render_template('404.html'),404
 
 #===REGISTRO===
-
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -74,6 +71,7 @@ def register():
         return redirect('/dashboard')
     return render_template('register.html')
 
+#===LOGIN===
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
@@ -106,7 +104,6 @@ def login():
                 flash("Contraseña incorrecta")
                 return redirect('/login')
     return render_template('login.html')
-
 @app.route('/dashboard')
 def dashboard():
     if not session.get('email'):
@@ -186,7 +183,6 @@ def actualizar():
     conexion = sqlite3.connect('favoritos.db')
     cursor = conexion.cursor()
     cursor.execute('''UPDATE favoritos SET name=? WHERE email=? AND id=?''', (name, session['email'], p_id))
-
     conexion.commit()
     conexion.close()
     return redirect('/favoritos')
@@ -197,7 +193,6 @@ def cerrarsesion():
     session.clear()
     flash("Has cerrado sesion")
     return redirect('/login')
-
 
 create_table()
 #===INICIO APP===
