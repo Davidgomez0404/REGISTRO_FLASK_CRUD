@@ -136,6 +136,14 @@ def favoritos():
         name = request.form['name']
         image = request.form['image']
 
+        cursor.execute('''SELECT COUNT(*) FROM favoritos WHERE email =?''', (session['email'],))
+        total_favoritos = cursor.fetchone()
+
+        if total_favoritos[0] >= 5:
+            flash("Maximo 5 favoritos")
+            conexion.close()
+            return redirect('/favoritos')
+
         cursor.execute('''INSERT INTO favoritos (name, image, email) VALUES(?,?,?)''', (name, image, session['email']))
         conexion.commit()
         conexion.close()
@@ -182,7 +190,6 @@ def actualizar():
     conexion.commit()
     conexion.close()
     return redirect('/favoritos')
-
 
 #===CIERRE DE SESION===
 @app.route('/cerrarsesion')
