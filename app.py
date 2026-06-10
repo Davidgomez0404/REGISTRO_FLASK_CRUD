@@ -198,7 +198,8 @@ def cerrarsesion():
     flash("Has cerrado sesion")
     return redirect('/login')
 
+
+create_table()
 #===INICIO APP===
 if __name__ == '__main__':
-    create_table()
     app.run(debug=True)
