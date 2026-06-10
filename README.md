@@ -1,3 +1,3 @@
 .env:
 
-secreto='tuclave'
+secreto=tuclave
